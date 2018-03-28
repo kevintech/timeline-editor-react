@@ -1,46 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import TimelineFrames from "./timeline-frames.jsx";
+import PropTypes from "prop-types";
 import "./timeline.scss";
 
-export default class Timeline extends React.Component {
+class Timeline extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = {
-            layers:[
-                {
-                    id: "3d1df1b4-4d9d-45a4-bf14-cb580ee74675",
-                    name: "Left"
-                },
-                {
-                    id: "7d8c4210-0cfa-4a10-8b21-01e6601e00bf",
-                    name: "Top"
-                },
-                {
-                    id: "65079f30-47a8-4469-833e-4f0eea04d233",
-                    name: "Bottom Right"
-                }
-            ],
-            frames: {
-                "3d1df1b4-4d9d-45a4-bf14-cb580ee74675": [{
-                    name: "Hello.png",
-                    second: 0,
-                    duration: 70
-                },
-                {
-                    name: "Wellcome.png",
-                    second: 130,
-                    duration: 200
-                }],
-                "7d8c4210-0cfa-4a10-8b21-01e6601e00bf": [{
-                    name: "Goodbye.png",
-                    second: 10,
-                    duration: 150
-                }],
-                "65079f30-47a8-4469-833e-4f0eea04d233": []
-            },
-            draggable: null
-        };
+        this.state = {layers: props.layers, frames: props.frames};
+    }
+
+    updateFrames(framesUpdated) {
+        this.setState({frames: framesUpdated});
+        this.props.onUpdateFrames(framesUpdated);
     }
 
     render() {
@@ -50,12 +23,28 @@ export default class Timeline extends React.Component {
                     <div className="timeline-editor__layers-header">Layers</div>
                     <ul>
                     {this.state.layers.map((layer)=>
-                        <li>{layer.name}</li>
+                        <li key={layer.id}>{layer.name}</li>
                     )}
                     </ul>
                 </div>
-                <TimelineFrames frames={this.state.frames} />
+                <TimelineFrames frames={this.state.frames} seconds="100" updateFrames={this.updateFrames.bind(this)} />
             </div>
         </div>
     }
 }
+
+Timeline.propTypes = {
+    layers: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string 
+    })),
+    frames: PropTypes.objectOf(PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string,
+            second: PropTypes.number,
+            duration: PropTypes.number
+        })
+    ))
+}
+
+export default Timeline;

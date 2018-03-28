@@ -1,10 +1,12 @@
 import React from 'react';
 import TimelineRuler from "./timeline-ruler.jsx";
+import { SECONDS_LENGTH } from "./seconds-sizes";
 
 export default class TimelineFrames extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = {frames: props.frames};
+        this.state = {frames: props.frames, seconds: props.seconds, draggable: null};
     }
 
     handleFrameDragStart(e, layerKey, frameIndex) {
@@ -31,24 +33,26 @@ export default class TimelineFrames extends React.Component {
             currentElementIndex: index,
             startX: currentClientX,
         }});
+        this.props.updateFrames(frames);
     }
 
     handleFrameDragEnd() {
         this.setState({draggable:null});
     }
     
-    //TODO: seconds should be calculated or have a init value
     render() {
         return (
             <div className="timeline-editor__frames" 
                 onMouseUp={() => this.handleFrameDragEnd()}>
-                <TimelineRuler seconds="200"/>
+                <TimelineRuler seconds={this.state.seconds}/>
                 {Object.keys(this.state.frames).map((layerKey, layerIndex) => 
-                    <div className="timeline-editor__frames-container">
+                    <div className="timeline-editor__frames-container" key={layerKey}>
                         <div className="timeline-editor__frames-layer"
+                        style={{width:this.state.seconds*SECONDS_LENGTH}}
                         onMouseMove={(e) => this.handleFrameDraggin(e)}>
                         {this.state.frames[layerKey].map((frame, index) =>
                             <span className="timeline-editor__frames-layer__item" 
+                                key={index}
                                 style={{width:frame.duration, left:frame.second}}
                                 onMouseDown={(e) => this.handleFrameDragStart(e, layerKey, index)}>
                                 {frame.name}

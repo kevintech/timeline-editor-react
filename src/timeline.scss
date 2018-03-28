@@ -1,6 +1,13 @@
 $container_border_color: #555;
-$timeline_layer_color: #FF0;
 $timeline_frame_10s_size: 100px;
+$timeline_frame_background_color: #FAA;
+$timeline_frame_text_color: #000;
+$timeline_layer_background_color: #FF0;
+$timeline_layer_header_background_color: #D65;
+$timeline_layer_header_text_color: #865;
+$timeline_layer_text_color: #91F;
+$timeline_ruler_background_color: #3AA;
+$timeline_ruler_text_color: #55B;
 
 .timeline-editor {
     &__container {
@@ -22,9 +29,10 @@ $timeline_frame_10s_size: 100px;
             position: relative;
 
             &__item {
-                background-color: #CCC;
+                background-color: $timeline_frame_background_color;
                 box-shadow: 0 0 1px black inset;
                 box-sizing: border-box;
+                color: $timeline_frame_text_color;
                 cursor: move;
                 display: inline-block;
                 left: 0;
@@ -49,8 +57,9 @@ $timeline_frame_10s_size: 100px;
         }
 
         &-ruler {
-            background-color: #EEE;
+            background-color: $timeline_ruler_background_color;
             border-bottom: 1px solid black;
+            color: $timeline_ruler_text_color;
             font-size: 16px;
             height: 1.5em;
             min-width: 100%;
@@ -96,8 +105,9 @@ $timeline_frame_10s_size: 100px;
     }
 
     &__layers {
-        background-color: #EEE;
+        background-color: $timeline_layer_header_background_color;
         border-right: 2px solid rgba(0,0,0,0.5);
+        color: $timeline_layer_header_text_color;
         display: table-cell;
         vertical-align: top;
         width: 200px;
@@ -116,8 +126,9 @@ $timeline_frame_10s_size: 100px;
             padding: 0;
 
             li {
-                background-color: $timeline_layer_color;
+                background-color: $timeline_layer_background_color;
                 border-bottom: 1px solid rgba(0,0,0,0.5);
+                color: $timeline_layer_text_color;
                 display: block;
                 padding: 0.25em;
             }
