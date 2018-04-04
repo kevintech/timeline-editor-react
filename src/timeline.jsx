@@ -27,7 +27,9 @@ class Timeline extends React.Component {
                     )}
                     </ul>
                 </div>
-                <TimelineFrames frames={this.state.frames} seconds="100" updateFrames={this.updateFrames.bind(this)} />
+                <TimelineFrames frames={this.state.frames} 
+                    layers={this.state.layers}
+                    seconds="100" updateFrames={this.updateFrames.bind(this)} />
             </div>
         </div>
     }

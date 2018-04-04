@@ -1,12 +1,14 @@
 import React from 'react';
 import TimelineRuler from "./timeline-ruler.jsx";
+import TimelineFrame from "./timeline-frame.jsx";
 import { SECONDS_LENGTH } from "./seconds-sizes";
 
 export default class TimelineFrames extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {frames: props.frames, seconds: props.seconds, draggable: null};
+        this.state = {frames: props.frames, seconds: props.seconds, 
+            layers: props.layers, draggable: null};
     }
 
     handleFrameDragStart(e, layerKey, frameIndex) {
@@ -45,18 +47,16 @@ export default class TimelineFrames extends React.Component {
             <div className="timeline-editor__frames" 
                 onMouseUp={() => this.handleFrameDragEnd()}>
                 <TimelineRuler seconds={this.state.seconds}/>
-                {Object.keys(this.state.frames).map((layerKey, layerIndex) => 
-                    <div className="timeline-editor__frames-container" key={layerKey}>
+                {this.state.layers.map((layer) =>
+                    <div className="timeline-editor__frames-container" key={layer.id}>
                         <div className="timeline-editor__frames-layer"
                         style={{width:this.state.seconds*SECONDS_LENGTH}}
                         onMouseMove={(e) => this.handleFrameDraggin(e)}>
-                        {this.state.frames[layerKey].map((frame, index) =>
-                            <span className="timeline-editor__frames-layer__item" 
-                                key={index}
-                                style={{width:frame.duration, left:frame.second}}
-                                onMouseDown={(e) => this.handleFrameDragStart(e, layerKey, index)}>
-                                {frame.name}
-                            </span>
+                        {this.state.frames[layer.id] && 
+                        this.state.frames[layer.id].map((frame, index) =>
+                            <TimelineFrame key={index} index={index} 
+                            frame={frame} layerKey={layer.id} 
+                            dragEvent={this.handleFrameDragStart.bind(this)} />
                         )}
                         </div>
                     </div>
