@@ -5,7 +5,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
+        libraryTarget: 'commonjs2'
     },
     optimization: {
 		splitChunks: {
@@ -38,6 +39,9 @@ module.exports = {
                 use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
+    },
+    externals: {
+        react: 'commonjs react'
     },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
