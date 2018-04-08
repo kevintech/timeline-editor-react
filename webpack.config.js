@@ -6,25 +6,9 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist'),
-        libraryTarget: 'commonjs2'
+        library: 'Timeline',
+        libraryTarget: 'umd'
     },
-    optimization: {
-		splitChunks: {
-            chunks: "initial",
-			cacheGroups: {
-				commons: {
-					minChunks: 1,
-					maxInitialRequests: 5, // The default limit is too small to showcase the effect
-				},
-				vendor: {
-					test: /node_modules/,
-					name: "vendor",
-					priority: 10,
-					enforce: true
-				}
-			}
-		}
-	},
     module: {
         rules: [
             {
@@ -39,7 +23,9 @@ module.exports = {
         ]
     },
     externals: {
-        react: 'commonjs react'
+        react: 'react',
+        'react-dom': 'react-dom',
+        'prop-types': 'prop-types'
     },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
